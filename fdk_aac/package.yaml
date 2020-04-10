@@ -1,0 +1,288 @@
+
+## 第一部分： 基础信息
+name: fdk_aac                                       # <必选项> 包名称 （符合C语言变量命名规则），长度少于等于64字节
+description: FDK-AAC是一个开源的MPEG-4和MPEG-2 AAC解码器 # <必选项> 建议至少20字以上
+type: common                                        # <可选项> 组件类型，为：solution, chip, board, common，缺省值 common
+
+tag: 多媒体播放器                                   # <可选项> 组件分类，缺省值： ''
+keywords:                                           # <可选项> 标签，会影响到组件被搜索的效果，合理的标签很重要
+  - fdk_aac
+  - aac decoder
+  - m4a
+  - audio decoder
+  - media
+yoc_version: ['v7.2', 'v7.3']
+author:                                             # <可选项> 原作者信息
+  name: jingzhishen
+  email: jingzhishen@126.com
+license: BSD                                        # <可选项> 源代码的许可证，要确保所有代码、文件的许可证不冲突。如：MIT，Apache license v2.0，BSD
+
+## 第二部分：依赖信息
+#           指定该组件依赖的组件及版本，版本支持条件比较，支持：>=v1.0, >v1.0, ==v1.0, <=v1.0, <v1.0, v1.0
+#           未指定条件时，默认为 ==，如 v1.0 与 ==v1.0
+# depends:                                 # <可选项> 该组件依赖其他的组件，合理的依赖才能保证组件能编译、使用
+#   - minilibc: v7.2.0
+#   - aos: >=v7.2.0
+depends:
+  - csi: V7.3.0
+  - rhino: V7.3.0
+  - aos: V7.3.0
+
+## 第四部分：编译连接信息
+# build_config:                            # <可选项> 编译配置项
+#   include:                               # <可选项> 编译时，影响编译器的-I 参数 ,全局有效
+#     - src                                #        include 只能是该软件包下的目录，不能使用外部目录
+#   internal_include:                      # <可选项> 编译时，影响编译器的-I 参数 ,组件内有效
+#     - include
+#   cflag: ''                              # <可选项> C 编译器所需要要的编译参数
+#   cxxflag: ''                            # <可选项> CXX 编译器所需要要的编译参数
+#   asmflag: ''                            # <可选项> 汇编器所需要要参数
+#   define:                                # <可选项> 宏定义, 增加编译器的-D 选项,如：
+#     XXX: 1                               #   -DXXX=1
+#     AAA: 1                               #   -DAAA
+#     STR: "abc"                           #   -DSTR="abc"
+#   libs:                                  # 该组件中支持的二进制静态库,如：libxxx.a, libyyy.a
+#     - xxx                                #   -lxxx
+#     - yyy                                #   -lyyy
+#   libpath:                               # 指定静态库所在的路径（相对于该组件路径）
+#     - libs                               #   -Llibs
+build_config:
+  cflag: '-Wno-unused-function -Wno-array-bounds'
+  cxxflag: '-Wno-unused-function -Wno-array-bounds'
+  define:
+    - PACKAGE_NAME=\"fdk_aac\"
+    - PACKAGE_TARNAME=\"fdk_aac\"
+    - PACKAGE_VERSION=\"2.0.1\"
+    - PACKAGE_STRING=\"fdk_aac\ 2.0.1\"
+    - PACKAGE=\"fdk_aac\"
+    - VERSION=\"2.0.1\"
+    - STDC_HEADERS=1
+    - HAVE_SYS_TYPES_H=1
+    - HAVE_SYS_STAT_H=1
+    - HAVE_STDLIB_H=1
+    - HAVE_STRING_H=1
+    - HAVE_MEMORY_H=1
+    - HAVE_STRINGS_H=1
+    - HAVE_INTTYPES_H=1
+    - HAVE_STDINT_H=1
+    - HAVE_UNISTD_H=1
+    - HAVE_DLFCN_H=0
+    - SBRDEC_MAX_HB_FADE_FRAMES=0
+    - FDK_MEM_OPT
+    - FDK_CSKY_ASM
+    - FDK_DEC_SBR_ENABLE
+  include:
+    - include
+  internal_include:
+    - include/fdk_aac
+    - libArithCoding/include
+    - libDRCdec/include
+    - libSACdec/include
+    - libSACenc/include
+    - libSBRdec/include
+    - libSBRenc/include
+    - libMpegTPDec/include
+    - libMpegTPEnc/include
+    - libFDK/include
+    - libPCMutils/include
+
+# source_file:                             # <可选项> 指定参与编译的源代码文件，支持通配符，采用相对路径
+#   - src/*.c                              # 例：组件 src 目录下所有的扩展名为 c 的源代码文件
+source_file:
+  - "libAACdec/src/FDK_delay.cpp"
+  - "libAACdec/src/aac_ram.cpp"
+  - "libAACdec/src/aac_rom.cpp"
+  - "libAACdec/src/aacdec_drc.cpp"
+  - "libAACdec/src/aacdec_hcr.cpp"
+  - "libAACdec/src/aacdec_hcr_bit.cpp"
+  - "libAACdec/src/aacdec_hcrs.cpp"
+  - "libAACdec/src/aacdec_pns.cpp"
+  - "libAACdec/src/aacdec_tns.cpp"
+  - "libAACdec/src/aacdecoder.cpp"
+  - "libAACdec/src/aacdecoder_lib.cpp"
+  - "libAACdec/src/block.cpp"
+  - "libAACdec/src/channel.cpp"
+  - "libAACdec/src/channelinfo.cpp"
+  - "libAACdec/src/conceal.cpp"
+  - "libAACdec/src/ldfiltbank.cpp"
+  - "libAACdec/src/pulsedata.cpp"
+  - "libAACdec/src/rvlc.cpp"
+  - "libAACdec/src/rvlcbit.cpp"
+  - "libAACdec/src/rvlcconceal.cpp"
+  - "libAACdec/src/stereo.cpp"
+  - "libAACdec/src/usacdec_ace_d4t64.cpp"
+  - "libAACdec/src/usacdec_ace_ltp.cpp"
+  - "libAACdec/src/usacdec_acelp.cpp"
+  - "libAACdec/src/usacdec_fac.cpp"
+  - "libAACdec/src/usacdec_lpc.cpp"
+  - "libAACdec/src/usacdec_lpd.cpp"
+  - "libAACdec/src/usacdec_rom.cpp"
+    #  - "libAACenc/src/aacEnc_ram.cpp"
+    #  - "libAACenc/src/aacEnc_rom.cpp"
+    #  - "libAACenc/src/aacenc.cpp"
+    #  - "libAACenc/src/aacenc_lib.cpp"
+    #  - "libAACenc/src/aacenc_pns.cpp"
+    #  - "libAACenc/src/aacenc_tns.cpp"
+    #  - "libAACenc/src/adj_thr.cpp"
+    #  - "libAACenc/src/band_nrg.cpp"
+    #  - "libAACenc/src/bandwidth.cpp"
+    #  - "libAACenc/src/bit_cnt.cpp"
+    #  - "libAACenc/src/bitenc.cpp"
+    #  - "libAACenc/src/block_switch.cpp"
+    #  - "libAACenc/src/channel_map.cpp"
+    #  - "libAACenc/src/chaosmeasure.cpp"
+    #  - "libAACenc/src/dyn_bits.cpp"
+    #  - "libAACenc/src/grp_data.cpp"
+    #  - "libAACenc/src/intensity.cpp"
+    #  - "libAACenc/src/line_pe.cpp"
+    #  - "libAACenc/src/metadata_compressor.cpp"
+    #  - "libAACenc/src/metadata_main.cpp"
+    #  - "libAACenc/src/mps_main.cpp"
+    #  - "libAACenc/src/ms_stereo.cpp"
+    #  - "libAACenc/src/noisedet.cpp"
+    #  - "libAACenc/src/pnsparam.cpp"
+    #  - "libAACenc/src/pre_echo_control.cpp"
+    #  - "libAACenc/src/psy_configuration.cpp"
+    #  - "libAACenc/src/psy_main.cpp"
+    #  - "libAACenc/src/qc_main.cpp"
+    #  - "libAACenc/src/quantize.cpp"
+    #  - "libAACenc/src/sf_estim.cpp"
+    #  - "libAACenc/src/spreading.cpp"
+    #  - "libAACenc/src/tonality.cpp"
+    #  - "libAACenc/src/transform.cpp"
+  - "libArithCoding/src/ac_arith_coder.cpp"
+  - "libDRCdec/src/FDK_drcDecLib.cpp"
+  - "libDRCdec/src/drcDec_gainDecoder.cpp"
+  - "libDRCdec/src/drcDec_reader.cpp"
+  - "libDRCdec/src/drcDec_rom.cpp"
+  - "libDRCdec/src/drcDec_selectionProcess.cpp"
+  - "libDRCdec/src/drcDec_tools.cpp"
+  - "libDRCdec/src/drcGainDec_init.cpp"
+  - "libDRCdec/src/drcGainDec_preprocess.cpp"
+  - "libDRCdec/src/drcGainDec_process.cpp"
+  - "libMpegTPDec/src/tpdec_adif.cpp"
+  - "libMpegTPDec/src/tpdec_adts.cpp"
+  - "libMpegTPDec/src/tpdec_asc.cpp"
+  - "libMpegTPDec/src/tpdec_drm.cpp"
+  - "libMpegTPDec/src/tpdec_latm.cpp"
+  - "libMpegTPDec/src/tpdec_lib.cpp"
+    #  - "libMpegTPEnc/src/tpenc_adif.cpp"
+    #  - "libMpegTPEnc/src/tpenc_adts.cpp"
+    #  - "libMpegTPEnc/src/tpenc_asc.cpp"
+    #  - "libMpegTPEnc/src/tpenc_latm.cpp"
+    #  - "libMpegTPEnc/src/tpenc_lib.cpp"
+  - "libSACdec/src/sac_bitdec.cpp"
+  - "libSACdec/src/sac_calcM1andM2.cpp"
+  - "libSACdec/src/sac_dec.cpp"
+  - "libSACdec/src/sac_dec_conceal.cpp"
+  - "libSACdec/src/sac_dec_lib.cpp"
+  - "libSACdec/src/sac_process.cpp"
+  - "libSACdec/src/sac_qmf.cpp"
+  - "libSACdec/src/sac_reshapeBBEnv.cpp"
+  - "libSACdec/src/sac_rom.cpp"
+  - "libSACdec/src/sac_smoothing.cpp"
+  - "libSACdec/src/sac_stp.cpp"
+  - "libSACdec/src/sac_tsd.cpp"
+    #  - "libSACenc/src/sacenc_bitstream.cpp"
+    #  - "libSACenc/src/sacenc_delay.cpp"
+    #  - "libSACenc/src/sacenc_dmx_tdom_enh.cpp"
+    #  - "libSACenc/src/sacenc_filter.cpp"
+    #  - "libSACenc/src/sacenc_framewindowing.cpp"
+    #  - "libSACenc/src/sacenc_huff_tab.cpp"
+    #  - "libSACenc/src/sacenc_lib.cpp"
+    #  - "libSACenc/src/sacenc_nlc_enc.cpp"
+    #  - "libSACenc/src/sacenc_onsetdetect.cpp"
+    #  - "libSACenc/src/sacenc_paramextract.cpp"
+    #  - "libSACenc/src/sacenc_staticgain.cpp"
+    #  - "libSACenc/src/sacenc_tree.cpp"
+    #  - "libSACenc/src/sacenc_vectorfunctions.cpp"
+  - "libSBRdec/src/HFgen_preFlat.cpp"
+  - "libSBRdec/src/env_calc.cpp"
+  - "libSBRdec/src/env_dec.cpp"
+  - "libSBRdec/src/env_extr.cpp"
+  - "libSBRdec/src/hbe.cpp"
+  - "libSBRdec/src/huff_dec.cpp"
+  - "libSBRdec/src/lpp_tran.cpp"
+  - "libSBRdec/src/psbitdec.cpp"
+  - "libSBRdec/src/psdec.cpp"
+  - "libSBRdec/src/psdec_drm.cpp"
+  - "libSBRdec/src/psdecrom_drm.cpp"
+  - "libSBRdec/src/pvc_dec.cpp"
+  - "libSBRdec/src/sbr_crc.cpp"
+  - "libSBRdec/src/sbr_deb.cpp"
+  - "libSBRdec/src/sbr_dec.cpp"
+  - "libSBRdec/src/sbr_ram.cpp"
+  - "libSBRdec/src/sbr_rom.cpp"
+  - "libSBRdec/src/sbrdec_drc.cpp"
+  - "libSBRdec/src/sbrdec_freq_sca.cpp"
+  - "libSBRdec/src/sbrdecoder.cpp"
+    #  - "libSBRenc/src/bit_sbr.cpp"
+    #  - "libSBRenc/src/code_env.cpp"
+    #  - "libSBRenc/src/env_bit.cpp"
+    #  - "libSBRenc/src/env_est.cpp"
+    #  - "libSBRenc/src/fram_gen.cpp"
+    #  - "libSBRenc/src/invf_est.cpp"
+    #  - "libSBRenc/src/mh_det.cpp"
+    #  - "libSBRenc/src/nf_est.cpp"
+    #  - "libSBRenc/src/ps_bitenc.cpp"
+    #  - "libSBRenc/src/ps_encode.cpp"
+    #  - "libSBRenc/src/ps_main.cpp"
+    #  - "libSBRenc/src/resampler.cpp"
+    #  - "libSBRenc/src/sbr_encoder.cpp"
+    #  - "libSBRenc/src/sbr_misc.cpp"
+    #  - "libSBRenc/src/sbrenc_freq_sca.cpp"
+    #  - "libSBRenc/src/sbrenc_ram.cpp"
+    #  - "libSBRenc/src/sbrenc_rom.cpp"
+    #  - "libSBRenc/src/ton_corr.cpp"
+    #  - "libSBRenc/src/tran_det.cpp"
+  - "libPCMutils/src/limiter.cpp"
+  - "libPCMutils/src/pcm_utils.cpp"
+  - "libPCMutils/src/pcmdmx_lib.cpp"
+  - "libFDK/src/FDK_bitbuffer.cpp"
+  - "libFDK/src/FDK_core.cpp"
+  - "libFDK/src/FDK_crc.cpp"
+  - "libFDK/src/FDK_decorrelate.cpp"
+  - "libFDK/src/FDK_hybrid.cpp"
+  - "libFDK/src/FDK_lpc.cpp"
+  - "libFDK/src/FDK_matrixCalloc.cpp"
+  - "libFDK/src/FDK_qmf_domain.cpp"
+  - "libFDK/src/FDK_tools_rom.cpp"
+  - "libFDK/src/FDK_trigFcts.cpp"
+  - "libFDK/src/autocorr2nd.cpp"
+  - "libFDK/src/dct.cpp"
+  - "libFDK/src/fft.cpp"
+  - "libFDK/src/fft_rad2.cpp"
+  - "libFDK/src/fixpoint_math.cpp"
+  - "libFDK/src/huff_nodes.cpp"
+  - "libFDK/src/mdct.cpp"
+  - "libFDK/src/nlc_dec.cpp"
+  - "libFDK/src/qmf.cpp"
+  - "libFDK/src/scale.cpp"
+  - "libFDK/src/csky/scramble.S"
+  - "libSYS/src/genericStds.cpp"
+  - "libSYS/src/syslib_channelMapDescr.cpp"
+
+## 第五部分：配置信息
+# def_config:                              # 组件的可配置项
+#   CONFIG_DEBUG: y
+#   CONFIG_PARAM_NOT_CHECK: y
+#   CONFIG_CLI: y
+
+## 第六部分：安装信息
+# install:
+#   - dest: include/                       # 安装的目的路径 dest是相当路径，通常是相对于YoC SDK 安装目录
+#     source:                              # 安装源列表
+#      - src/*.h                           # 支持通配符，相对路径
+install:
+  - dest: "include/"
+    source:
+      - "include/*"
+
+## 第七部分：导出部分
+# export:
+#   - dest: "<SOLUTION_PATH>/generated/data" # 安装的目的路径 dest是相当路径
+#     source:                                # 安装源列表
+#       - "bootimgs/boot"
+#       - "bootimgs/tee"
+#       - "bootimgs/mtb"
+#       - "configs/config.yaml"
