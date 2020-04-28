@@ -1,6 +1,7 @@
 
 ## 第一部分： 基础信息
 name: fdk_aac                                       # <必选项> 包名称 （符合C语言变量命名规则），长度少于等于64字节
+version: v7.3-dev
 description: FDK-AAC是一个开源的MPEG-4和MPEG-2 AAC解码器 # <必选项> 建议至少20字以上
 type: common                                        # <可选项> 组件类型，为：solution, chip, board, common，缺省值 common
 
@@ -11,7 +12,6 @@ keywords:                                           # <可选项> 标签，会�
   - m4a
   - audio decoder
   - media
-yoc_version: ['v7.2', 'v7.3']
 author:                                             # <可选项> 原作者信息
 
 ## 第二部分：依赖信息
